@@ -2,39 +2,10 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <sys/types.h>
 
-char *argument;
+global_object gb;
 
-/**
-* _exiterr - exit with an error message
-* @msg: the error message
-* Return: Nothing
-*/
-void _exiterr(char *msg)
-{
-	fprintf(stderr, "%s\n", msg);
-	exit(EXIT_FAILURE);
-}
-
-/**
-* freestack - free the stack nodes
-* @stack: pointer to the top of the stack
-* Return: Nothing
-*/
-void freestack(stack_t **stack)
-{
-	stack_t *cur = *stack, *temp;
-
-	while (cur)
-	{
-		temp = cur->prev;
-		free(cur);
-		cur = temp;
-	}
-	*stack = cur;
-}
 
 /**
 * push - push an int to the stack
@@ -46,15 +17,15 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;
 	int i = 0;
-	int iarg = atoi(argument);
+	int iarg = atoi(gb.oparg);
 	(void)line_number;
 
-	if (argument == NULL)
-		_exiterr("L%u: usage: push integer");
-	while (argument[i])
+	if (gb.oparg == NULL)
+		_exiterr(stack, "L%u: usage: push integer\n", line_number);
+	while (gb.oparg[i])
 	{
-		if (!isdigit(argument[i]))
-			_exiterr("L%u: usage: push integer");
+		if (!isdigit(gb.oparg[i]))
+			_exiterr(stack, "L%u: usage: push integer\n", line_number);
 		i++;
 	}
 
@@ -93,8 +64,7 @@ void pall(stack_t **stack, unsigned int line_number)
 */
 int main(int argc, char **argv)
 {
-	FILE *file;
-	char *line = NULL, *opcode;
+	char *opcode;
 	unsigned int lineno = 0;
 	int i;
 	size_t len = 0;
@@ -107,17 +77,17 @@ int main(int argc, char **argv)
 	instructions[1].opcode = "pall";
 	instructions[1].f = &pall;
 	if (argc != 2)
-		_exiterr("USAGE: monty file\n");
-	file = fopen(argv[1], "r");
-	if (file == NULL)
-		_exiterr("Error: Can't open file %s\n");
-	while ((nread = getline(&line, &len, file)) != -1)
+		_exiterr(&stack, "USAGE: monty file\n");
+	gb.file = fopen(argv[1], "r");
+	if (gb.file == NULL)
+		_exiterr(&stack, "Error: Can't open file %s\n", argv[1]);
+	while ((nread = getline(&gb.line, &len, gb.file)) != -1)
 	{
 		lineno++;
-		opcode = strtok(line, " \n");
+		opcode = strtok(gb.line, " \n");
 		if (opcode == NULL)
 			continue;
-		argument = strtok(NULL, " \n");
+		gb.oparg = strtok(NULL, " \n");
 		for (i = 0; i < 2; i++)
 		{
 			if (strcmp(instructions[i].opcode, opcode) == 0)
@@ -127,8 +97,6 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	free(line);
-	fclose(file);
-	freestack(&stack);
+	clean(&stack);
 	return (EXIT_SUCCESS);
 }
