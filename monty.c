@@ -19,6 +19,23 @@ void _exiterr(char *msg)
 }
 
 /**
+* freestack - free the stack nodes
+* @stack: pointer to the top of the stack
+* Return: Nothing
+*/
+void freestack(stack_t **stack)
+{
+	stack_t *cur = *stack, *temp;
+	while (cur)
+	{
+		temp = cur->prev;
+		free(cur);
+		cur = temp;
+	}
+	*stack = cur;
+}
+
+/**
 * push - push an int to the stack
 * @stack: pointer to the top of the stack
 * @line_number: the line number of the instruction
@@ -81,7 +98,7 @@ int main(int argc, char **argv)
 	int i;
 	size_t len = 0;
 	ssize_t nread;
-	stack_t *stack;
+	stack_t *stack = NULL;
 	instruction_t instructions[2];
 
 	instructions[0].opcode = "push";
@@ -111,5 +128,6 @@ int main(int argc, char **argv)
 	}
 	free(line);
 	fclose(file);
+	freestack(&stack);
 	return (EXIT_SUCCESS);
 }
