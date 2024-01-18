@@ -31,6 +31,8 @@ void push(stack_t **stack, unsigned int line_number)
 	}
 
 	new = (stack_t *)malloc(sizeof(stack_t));
+	if (new == NULL)
+		_exiterr(stack, "Error: malloc failed\n");
 	new->n = iarg;
 	new->next = NULL;
 	new->prev = *stack;
