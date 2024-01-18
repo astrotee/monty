@@ -17,11 +17,12 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;
 	int i = 0;
-	int iarg = atoi(gb.oparg);
+	int iarg;
 	(void)line_number;
 
 	if (gb.oparg == NULL)
 		_exiterr(stack, "L%u: usage: push integer\n", line_number);
+	iarg = atoi(gb.oparg);
 	while (gb.oparg[i])
 	{
 		if (!isdigit(gb.oparg[i]))
