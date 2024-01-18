@@ -67,7 +67,6 @@ int main(int argc, char **argv)
 {
 	char *opcode;
 	unsigned int lineno = 0;
-	int i;
 	size_t len = 0;
 	ssize_t nread;
 	stack_t *stack = NULL;
@@ -89,14 +88,12 @@ int main(int argc, char **argv)
 		if (opcode == NULL)
 			continue;
 		gb.oparg = strtok(NULL, " \n");
-		for (i = 0; i < 2; i++)
-		{
-			if (strcmp(instructions[i].opcode, opcode) == 0)
-			{
-				instructions[i].f(&stack, lineno);
-				break;
-			}
-		}
+		if (strcmp("push", opcode) == 0)
+			instructions[0].f(&stack, lineno);
+		else if (strcmp("pall", opcode) == 0)
+			instructions[1].f(&stack, lineno);
+		else
+			_exiterr(&stack, "L%u: unknown instruction %s\n", lineno, opcode);
 	}
 	clean(&stack);
 	return (EXIT_SUCCESS);
