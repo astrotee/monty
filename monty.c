@@ -26,6 +26,7 @@ void _exiterr(char *msg)
 void freestack(stack_t **stack)
 {
 	stack_t *cur = *stack, *temp;
+
 	while (cur)
 	{
 		temp = cur->prev;
