@@ -4,6 +4,25 @@
 
 
 /**
+* map_instructions - initialise the array of instructions
+* @instructions: pointer to the array of instructions
+* Return: Nothing
+*/
+void map_instructions(instruction_t instructions[ISIZE])
+{
+	instructions[0].opcode = "push";
+	instructions[0].f = &push;
+	instructions[1].opcode = "pall";
+	instructions[1].f = &pall;
+	instructions[2].opcode = "pint";
+	instructions[2].f = &pint;
+	instructions[3].opcode = "pop";
+	instructions[3].f = &pop;
+	instructions[4].opcode = "swap";
+	instructions[4].f = &swap;
+}
+
+/**
 * freestack - free the stack nodes
 * @stack: pointer to the top of the stack
 * Return: Nothing
