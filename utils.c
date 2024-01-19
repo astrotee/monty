@@ -24,6 +24,8 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[5].f = &add;
 	instructions[6].opcode = "nop";
 	instructions[6].f = &nop;
+	instructions[7].opcode = "sub";
+	instructions[7].f = &sub;
 }
 
 /**
