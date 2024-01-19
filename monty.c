@@ -7,6 +7,23 @@
 
 global_object gb;
 
+/**
+* pop - pop the top of the stack
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+
+	if (*stack == NULL)
+		_exiterr(stack, "L%u: can't pop an empty stack\n", line_number);
+	temp = (*stack)->prev;
+	free(*stack);
+	*stack = temp;
+}
+
 
 /**
 * pint - print the top of the stack
@@ -81,12 +98,13 @@ void pall(stack_t **stack, unsigned int line_number)
 */
 int main(int argc, char **argv)
 {
+	int i;
 	char *opcode;
 	unsigned int lineno = 0;
 	size_t len = 0;
 	ssize_t nread;
 	stack_t *stack = NULL;
-	instruction_t instructions[3];
+	instruction_t instructions[ISIZE];
 
 	instructions[0].opcode = "push";
 	instructions[0].f = &push;
@@ -94,6 +112,8 @@ int main(int argc, char **argv)
 	instructions[1].f = &pall;
 	instructions[2].opcode = "pint";
 	instructions[2].f = &pint;
+	instructions[3].opcode = "pop";
+	instructions[3].f = &pop;
 	if (argc != 2)
 		_exiterr(&stack, "USAGE: monty file\n");
 	gb.file = fopen(argv[1], "r");
@@ -106,13 +126,13 @@ int main(int argc, char **argv)
 		if (opcode == NULL)
 			continue;
 		gb.oparg = strtok(NULL, " \n");
-		if (strcmp("push", opcode) == 0)
-			instructions[0].f(&stack, lineno);
-		else if (strcmp("pall", opcode) == 0)
-			instructions[1].f(&stack, lineno);
-		else if (strcmp("pint", opcode) == 0)
-			instructions[2].f(&stack, lineno);
-		else
+		for (i = 0; i < ISIZE; i++)
+			if (strcmp(instructions[i].opcode, opcode) == 0)
+			{
+				instructions[i].f(&stack, lineno);
+				break;
+			}
+		if (i == ISIZE)
 			_exiterr(&stack, "L%u: unknown instruction %s\n", lineno, opcode);
 	}
 	clean(&stack);

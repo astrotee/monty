@@ -1,6 +1,7 @@
 #ifndef MONTY_H
 #define MONTY_H
 #define _GNU_SOURCE
+#define ISIZE 4
 #include <stdio.h>
 
 /**
