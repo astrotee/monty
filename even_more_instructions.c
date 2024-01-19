@@ -58,3 +58,22 @@ void pstr(stack_t **stack, unsigned int line_number)
 	}
 	printf("\n");
 }
+
+/**
+* rotl - rotate the stack to the top
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void rotl(stack_t **stack, unsigned int line_number)
+{
+	stack_t *top = *stack, *tail = *stack;
+	(void)line_number;
+
+	while (tail && tail->prev)
+		tail = tail->prev;
+	*stack = top->prev;
+	top->prev = NULL;
+	top->next = tail;
+	tail->prev = top;
+}
