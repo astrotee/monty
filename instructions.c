@@ -68,7 +68,8 @@ void push(stack_t **stack, unsigned int line_number)
 	iarg = atoi(gb.oparg);
 	while (gb.oparg[i])
 	{
-		if (!isdigit(gb.oparg[i]))
+		if (!isdigit(gb.oparg[i]) &&
+			!(i == 0 && (gb.oparg[0] == '-' || gb.oparg[0] == '+')))
 			_exiterr(stack, "L%u: usage: push integer\n", line_number);
 		i++;
 	}
