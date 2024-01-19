@@ -32,6 +32,8 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[9].f = &mul;
 	instructions[10].opcode = "mod";
 	instructions[10].f = &mod;
+	instructions[11].opcode = "pchar";
+	instructions[11].f = &pchar;
 }
 
 /**
