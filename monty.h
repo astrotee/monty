@@ -1,7 +1,7 @@
 #ifndef MONTY_H
 #define MONTY_H
 #define _GNU_SOURCE
-#define ISIZE 5
+#define ISIZE 6
 #include <stdio.h>
 
 /**
@@ -62,6 +62,7 @@ void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
 void map_instructions(instruction_t instructions[ISIZE]);
 
 

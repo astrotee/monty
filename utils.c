@@ -20,6 +20,8 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[3].f = &pop;
 	instructions[4].opcode = "swap";
 	instructions[4].f = &swap;
+	instructions[5].opcode = "add";
+	instructions[5].f = &add;
 }
 
 /**
