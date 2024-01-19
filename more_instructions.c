@@ -19,3 +19,14 @@ void add(stack_t **stack, unsigned int line_number)
 	free(*stack);
 	*stack = temp;
 }
+
+/**
+* nop - does nothing
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void nop(stack_t **stack, unsigned int line_number)
+{
+	(void)stack, (void)line_number;
+}
