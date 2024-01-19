@@ -78,3 +78,23 @@ void rotl(stack_t **stack, unsigned int line_number)
 	top->next = tail;
 	tail->prev = top;
 }
+
+/**
+* rotr - rotate the stack to the bottom
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void rotr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *top = *stack, *tail = *stack;
+	(void)line_number;
+
+	while (tail && tail->prev)
+		tail = tail->prev;
+	*stack = tail;
+	tail->next->prev = NULL;
+	tail->next = NULL;
+	tail->prev = top;
+	top->next = tail;
+}

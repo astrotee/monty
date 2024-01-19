@@ -38,6 +38,8 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[12].f = &pstr;
 	instructions[13].opcode = "rotl";
 	instructions[13].f = &rotl;
+	instructions[14].opcode = "rotr";
+	instructions[14].f = &rotr;
 }
 
 /**
