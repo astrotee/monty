@@ -28,6 +28,8 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[7].f = &sub;
 	instructions[8].opcode = "div";
 	instructions[8].f = &_div;
+	instructions[9].opcode = "mul";
+	instructions[9].f = &mul;
 }
 
 /**
