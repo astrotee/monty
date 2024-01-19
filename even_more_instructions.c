@@ -1,4 +1,5 @@
 #include "monty.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -37,3 +38,23 @@ void pchar(stack_t **stack, unsigned int line_number)
 	printf("%c\n", (*stack)->n);
 }
 
+/**
+* pstr - print the values of the stack as a string
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void pstr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *cur = *stack;
+	(void)line_number;
+
+	while (cur)
+	{
+		if (cur->n == 0 || cur->n & 0xFFFFFF80)
+			break;
+		printf("%c", cur->n);
+		cur = cur->prev;
+	}
+	printf("\n");
+}
