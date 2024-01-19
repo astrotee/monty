@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 	{
 		lineno++;
 		opcode = strtok(gb.line, " \n");
-		if (opcode == NULL)
+		if (opcode == NULL || opcode[0] == '#')
 			continue;
 		gb.oparg = strtok(NULL, " \n");
 		for (i = 0; i < ISIZE; i++)
