@@ -72,6 +72,8 @@ void rotl(stack_t **stack, unsigned int line_number)
 
 	while (tail && tail->prev)
 		tail = tail->prev;
+	if (tail == top)
+		return;
 	*stack = top->prev;
 	top->prev->next = NULL;
 	top->prev = NULL;
@@ -92,6 +94,8 @@ void rotr(stack_t **stack, unsigned int line_number)
 
 	while (tail && tail->prev)
 		tail = tail->prev;
+	if (tail == top)
+		return;
 	*stack = tail;
 	tail->next->prev = NULL;
 	tail->next = NULL;
