@@ -1,28 +1,8 @@
 #ifndef MONTY_H
 #define MONTY_H
 #define _GNU_SOURCE
-#define ISIZE 15
+#define ISIZE 17
 #include <stdio.h>
-
-/**
- * struct global_object_s - global struct to keep track of used pointer
- * @oparg: the operation argument
- * @err: if an err occured
- * @line: the read line
- * @file: the read file
- *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
- */
-typedef struct global_object_s
-{
-		char *oparg;
-		short err;
-		char *line;
-		FILE *file;
-} global_object;
-
-extern global_object gb;
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -53,6 +33,28 @@ typedef struct instruction_s
 		void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct global_object_s - global struct to keep track of used pointer
+ * @oparg: the operation argument
+ * @FIFO: if the stack is used as FIFO
+ * @tail: the tail pointer
+ * @line: the read line
+ * @file: the read file
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
+ */
+typedef struct global_object_s
+{
+		char *oparg;
+		short FIFO;
+		stack_t *tail;
+		char *line;
+		FILE *file;
+} global_object;
+
+extern global_object gb;
+
 
 void freestack(stack_t **stack);
 void clean(stack_t **stack);
@@ -72,6 +74,8 @@ void mod(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
+void op_stack(stack_t **stack, unsigned int line_number);
+void op_queue(stack_t **stack, unsigned int line_number);
 void map_instructions(instruction_t instructions[ISIZE]);
 
 

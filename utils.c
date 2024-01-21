@@ -40,6 +40,10 @@ void map_instructions(instruction_t instructions[ISIZE])
 	instructions[13].f = &rotl;
 	instructions[14].opcode = "rotr";
 	instructions[14].f = &rotr;
+	instructions[15].opcode = "stack";
+	instructions[15].f = &op_stack;
+	instructions[16].opcode = "queue";
+	instructions[16].f = &op_queue;
 }
 
 /**

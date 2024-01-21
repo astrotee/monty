@@ -46,7 +46,7 @@ void pchar(stack_t **stack, unsigned int line_number)
 */
 void pstr(stack_t **stack, unsigned int line_number)
 {
-	stack_t *cur = *stack;
+	stack_t *cur = gb.FIFO ? gb.tail : *stack;
 	(void)line_number;
 
 	while (cur)
@@ -54,7 +54,7 @@ void pstr(stack_t **stack, unsigned int line_number)
 		if (cur->n == 0 || cur->n & 0xFFFFFF80)
 			break;
 		printf("%c", cur->n);
-		cur = cur->prev;
+		cur = gb.FIFO ? cur->next : cur->prev;
 	}
 	printf("\n");
 }

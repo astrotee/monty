@@ -31,9 +31,18 @@ void pop(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 		_exiterr(stack, "L%u: can't pop an empty stack\n", line_number);
-	temp = (*stack)->prev;
-	free(*stack);
-	*stack = temp;
+	if (gb.FIFO)
+	{
+		temp = gb.tail->next;
+		free(gb.tail);
+		gb.tail = temp;
+	}
+	else
+	{
+		temp = (*stack)->prev;
+		free(*stack);
+		*stack = temp;
+	}
 }
 
 
@@ -47,7 +56,10 @@ void pint(stack_t **stack, unsigned int line_number)
 {
 	if (*stack == NULL)
 		_exiterr(stack, "L%u: can't pint, stack empty\n", line_number);
-	printf("%d\n", (*stack)->n);
+	if (gb.FIFO)
+		printf("%d\n", gb.tail->n);
+	else
+		printf("%d\n", (*stack)->n);
 }
 
 /**
@@ -59,30 +71,44 @@ void pint(stack_t **stack, unsigned int line_number)
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;
-	int i = 0;
-	int iarg;
+	int i = 0, iarg;
 	(void)line_number;
 
 	if (gb.oparg == NULL)
 		_exiterr(stack, "L%u: usage: push integer\n", line_number);
 	iarg = atoi(gb.oparg);
-	while (gb.oparg[i])
-	{
+	for (i = 0; gb.oparg[i]; i++)
 		if (!isdigit(gb.oparg[i]) &&
 			!(i == 0 && (gb.oparg[0] == '-' || gb.oparg[0] == '+')))
 			_exiterr(stack, "L%u: usage: push integer\n", line_number);
-		i++;
-	}
-
 	new = (stack_t *)malloc(sizeof(stack_t));
 	if (new == NULL)
 		_exiterr(stack, "Error: malloc failed\n");
 	new->n = iarg;
-	new->next = NULL;
-	new->prev = *stack;
-	if (*stack)
-		(*stack)->next = new;
-	*stack = new;
+	if (gb.FIFO)
+	{
+		new->prev = NULL;
+		if (gb.tail)
+		{
+			gb.tail->prev = new;
+			new->next = gb.tail;
+		}
+		else
+			new->next = NULL;
+		gb.tail = new;
+		if (*stack == NULL)
+			*stack = new;
+	}
+	else
+	{
+		new->next = NULL;
+		new->prev = *stack;
+		if (*stack)
+			(*stack)->next = new;
+		else
+			gb.tail = new;
+		*stack = new;
+	}
 }
 
 /**

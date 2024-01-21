@@ -6,6 +6,29 @@
 
 global_object gb;
 
+/**
+* op_queue - use the stack as FIFO
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void op_queue(stack_t **stack, unsigned int line_number)
+{
+	(void)stack, (void)line_number;
+	gb.FIFO = 1;
+}
+
+/**
+* op_stack - use the stack as LIFO
+* @stack: pointer to the top of the stack
+* @line_number: the line number of the instruction
+* Return: Nothing
+*/
+void op_stack(stack_t **stack, unsigned int line_number)
+{
+	(void)stack, (void)line_number;
+	gb.FIFO = 0;
+}
 
 /**
 * main - the main function
